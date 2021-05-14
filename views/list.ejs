@@ -20,11 +20,11 @@
                 <form action='/delete' method='post'>
                 <% for(i = 0; i < list.length; i++) { %>
                 <tr>
-                    <td name = 'num'><%=list[i].rownum %></td>
+                    <td><%=list[i].rownum %></td>
                     <td><%=list[i].title %></td>
                     <td><%=list[i].id %></td>
                     <td><%=list[i].wdate %></td>
-                    <td ><button type ='submit'>글삭제</button</td>
+                    <td ><button onclick="location.href='../delete/?num=${list[i].rownum}'">글삭제</button</td>
                 </tr>
                 <% } %>
                 </form>

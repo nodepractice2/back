@@ -44,11 +44,12 @@ app.post('/delete' , function( req, res) {
     var body = req.body;
     var query = req.query;
     console.log(req.query);
+    console.log(req.num);
+    console.log(body.num);
 
     var sql = 'delete from BOARD where rownum = ?';
     var params = [body.num];
     console.log(sql);
-    console.log(params);
     conn.query(sql, params, function(err) {
         if(err) console.log('query is not excuted. insert fail...\n' + err);
         else res.redirect('/list');
