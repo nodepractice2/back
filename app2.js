@@ -3,7 +3,7 @@ var app = express();
 var db_config = require(__dirname + '/config/database.js');
 var conn = db_config.init();
 var bodyParser = require('body-parser');
-var a = 0;
+var a = 0; // 글번호
 
 db_config.connect(conn);
 
@@ -66,8 +66,8 @@ app.post('/writeAf', function (req, res) {
         console.log(a);
 
         var body = req.body;
-        sql = 'INSERT INTO BOARD VALUES(NOW(), ?, ?, ?, ?)';
-        var params = [body.id, body.title, body.content, a];
+        sql = 'INSERT INTO BOARD VALUES(?, NOW(), ?, ?, ?)';
+        var params = [body.id, body.title, a, body.content];
         console.log(sql);
         conn.query(sql, params, function(err) {
             if(err) console.log('query is not excuted. insert fail...\n' + err);
@@ -86,13 +86,15 @@ app.post('/writeAf1', function (req, res) {
         res.send("incorrent");
     }
 
-    var sql = 'INSERT INTO BOARD VALUES(NOW(), ?, ?, ?, ++a)';
-    var params = [body.username, body.email, body.password];
+    var sql = 'INSERT INTO user VALUES(?, ?, ?)';
+    var params = [body.username, body.password, body.email];
     console.log(sql);
     conn.query(sql, params, function(err) {
         if(err) console.log('query is not excuted. insert fail...\n' + err);
         else res.redirect('/');
     });
 });
+
+
 
 app.listen(3000, () => console.log('Server is running on port 3000...'));
