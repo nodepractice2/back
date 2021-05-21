@@ -102,12 +102,19 @@ app.post('/join', function(req,res){
     var id = req.body.id;
     var password = req.body.password;
     var email = req.body.email;
+    var apassword = req.body.apassword;
 
     if(!id || !password || !email || !apassword){
         //하나라도 누락된 경우
-        msg.info('모든 정보를 입력해 주세요');
-        return;
-    }
+        msg.info('모든 정보를 입력해 주세요')
+            return;
+         }
+    
+        if(password != apassword){
+            msg.info('비밀번호가 같지 않습니다')
+            return;
+        }
+    
 
     var sql = 'insert into user (id,password,email) values(?,?,?)';
     var params = [id,password,email];
@@ -115,28 +122,30 @@ app.post('/join', function(req,res){
     conn.query(sql,params,function(err,rows,fields){
         if(err)
         console.log(err);
-        else{
-            console.log(rows);
-            res.redirect('/login');
-        }
+           
+         else
+        console.log(rows);
+        msg.info('회원가입 완료')
+        res.redirect('/login');
+                
     });
 });
 
-app.post('/wndqhr',function(req,res){
-    var id = req.body.id;
-    var password = req.body.password;
-    var email = req.body.email;
-    var sql = 'insert into user (id,password,email) values(?,?,?)';
-    var params = [id,password,email];
-    conn.query(sql,params,function(err,rows,fields){
-        var user = rows[0];
-        if(user.email === email )
-        msg.info('사용불가능');
-        else{
-            msg.info('사용가능');
-        }
-    });
-});
+// app.post('/wndqhr',function(req,res){
+//     var id = req.body.id;
+//     var password = req.body.password;
+//     var email = req.body.email;
+//     var sql = 'insert into user (id,password,email) values(?,?,?)';
+//     var params = [id,password,email];
+//     conn.query(sql,params,function(err,rows,fields){
+//         var user = rows[0];
+//         if(user.email === email )
+//         msg.info('사용불가능');
+//         else{
+//             msg.info('사용가능');
+//         }
+//     });
+// });
 app.post('/login', function(req,res){
     var email = req.body.email;
     var password = req.body.password;
@@ -153,13 +162,16 @@ app.post('/login', function(req,res){
         if(rows.length == 0){
             //이메일이 존재하지 않으면
             msg.info('존재 하지 않는 이메일 입니다.');
-        } else if(user.password !== password){
+        } 
+        if(user.password !== password){
             //패스워드 틀리면
-            msg.info('패스워드를 확인해주세요');
-            } else{
+        msg.info('패스워드를 확인해주세요');
+        return;
+        } 
+        if(user.password == password){
             //이메일 패스워드 둘다 맞으면
-                res.redirect('/');
-            }
+            res.redirect('/');
+        }
     });
 });
 
