@@ -5,6 +5,7 @@ var conn = db_config.init();
 var bodyParser = require('body-parser');
 var a = 0; // 글번호
 var msg = require('dialog');
+var path = require('path');
 
 db_config.connect(conn);
 
@@ -21,6 +22,9 @@ function alertMessage(messageObject) {
     }
     app.get('/', function (req, res) {
         res.render('main.ejs');
+    });
+    app.get('/test', function (req, res) {
+        res.render('test.ejs');
     });
 app.get('/login', function (req, res) {
     res.render('login.ejs');
@@ -162,10 +166,12 @@ app.post('/login', function(req,res){
         if(rows.length == 0){
             //이메일이 존재하지 않으면
             msg.info('존재 하지 않는 이메일 입니다.');
+            return;
         } 
         if(user.password !== password){
             //패스워드 틀리면
-        msg.info('패스워드를 확인해주세요');
+       // msg.info('패스워드를 확인해주세요');
+       json.msg( '비밀번호 불일치' );
         return;
         } 
         if(user.password == password){
@@ -174,6 +180,11 @@ app.post('/login', function(req,res){
         }
     });
 });
-
-
-app.listen(3000, () => console.log('Server is running on port 3000...'));
+//ajax 사용 email 중복 버튼
+app.post('/ajax_send_email',function(req,res){
+    console.log(req.body.email);
+     
+});
+app.listen(3000, function(){
+    console.log('Server is running on port 3000...')
+}) ;
