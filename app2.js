@@ -7,6 +7,7 @@ var a = 0; // 글번호
 var msg = require('dialog');
 var path = require('path');
 
+
 db_config.connect(conn);
 
 app.set('views', __dirname + '/views');
@@ -24,7 +25,7 @@ app.get('/', function (req, res) {
 app.get('/test', function (req, res) {
         res.render('test.ejs');
     });
-    
+
 app.get('/login', function (req, res) {
     res.render('login.ejs');
 });
@@ -86,12 +87,13 @@ app.post('/writeAf', function (req, res) {
 
 
 app.post('/join', function(req,res){
-    var id = req.body.id;
+    var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
     var apassword = req.body.apassword;
+    var introduce = req.body.introduce
 
-    if(!id || !password || !email || !apassword){
+    if(!username || !password || !email || !apassword ||!introduce){
         //하나라도 누락된 경우
         msg.info('모든 정보를 입력해 주세요')
             return;
@@ -103,8 +105,8 @@ app.post('/join', function(req,res){
         }
     
 
-    var sql = 'insert into user (id,password,email) values(?,?,?)';
-    var params = [id,password,email];
+    var sql = 'insert into user (id,password,email,introduce) values(?,?,?,?)';
+    var params = [username,password,email,introduce];
 
     conn.query(sql,params,function(err,rows,fields){
         if(err)
@@ -148,11 +150,25 @@ app.post('/login', function(req,res){
         }
     });
 });
-//ajax 사용 email 중복 버튼
-app.post('/ajax_send_email',function(req,res){
-    console.log(req.body.email);
-     
-});
+
+
+app.post('/join/check', function(req,res){
+    var email = req.body.email;
+    
+    var sql = 'SELECT * FROM user WHERE email = ?';   
+    conn.query(sql, email,function (err, rows, fields) {
+        if(err) console.log('query is not excuted. select fail...\n' + err);
+        else{
+             
+            if(rows.length == 0){
+            res.send("ok");
+            } else if(rows.length == 1){
+            res.send("not");
+            }
+            
+        }
+    });
+})
 app.listen(3000, function(){
     console.log('Server is running on port 3000...')
 }) ;
