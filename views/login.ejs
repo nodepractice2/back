@@ -23,13 +23,13 @@
                         <form action='login' method='post'>
                 <div class="login_id">
                     <h4>E-mail</h4>
-                    <input type="email" name="email"  placeholder="Email" >
+                    <input type="email" name="email"  id="email"placeholder="Email" >
                 </div>
 
                     <!--PASSWD-->   
                 <div class="login_pw">
                     <h4>Password</h4>
-                    <input type="password" name="password" id="" placeholder="Password">
+                    <input type="password" name="password" id="password" placeholder="Password">
                 </div><br><br>
                     <!--회원가입 div-->
                 <div class="login_etc">
@@ -40,7 +40,7 @@
                     <!--로그인 버튼 submit은 서버로 데이터 전송기능-->
                 <div class="submit">
                     
-                   <input type="submit" value="로그인">
+                   <input type="button" onclick = "login()" value="로그인">
                     </form>
                 </div><br>
                 
@@ -56,6 +56,37 @@
 
             </div>
         </div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            function login(){
+            
+            const email = document.getElementById("email");
+            const password = document.getElementById('password')
+            axios({
+                method:"POST",
+                url: 'http://localhost:3000/login',
+                data:{
+                    "email": email.value,
+                    "password": password.value
+                }
+            }).then((res)=>{
+              console.log(res);
+                if(res.data == "passwderror"){
+                  alert("비밀번호 오류");
+                }
+                 else if(res.data == "emailerror"){
+                   alert("존재하지 않는 email입니다"); 
+                }else {
+                    location.replace("/");
+
+
+                }
+            }).catch(error=>{
+                console.log(error);
+                throw new Error(error);
+            });
+        }
+        </script>
 
     </body>
 </html>
