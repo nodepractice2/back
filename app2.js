@@ -135,18 +135,20 @@ app.post('/login', function(req,res){
         // }
         if(rows.length == 0){
             //이메일이 존재하지 않으면
+            res.send("emailerror");
             msg.info('존재 하지 않는 이메일 입니다.');
+
+            
             return;
         } 
         if(user.password !== password){
             //패스워드 틀리면
-       // msg.info('패스워드를 확인해주세요');
-       json.msg( '비밀번호 불일치' );
+            res.send("passwderror");
         return;
         } 
         if(user.password == password){
             //이메일 패스워드 둘다 맞으면
-            res.redirect('/');
+            res.redirect("/");
         }
     });
 });
@@ -164,6 +166,8 @@ app.post('/join/check', function(req,res){
             res.send("ok");
             } else if(rows.length == 1){
             res.send("not");
+            }else {
+                res.send("ok");
             }
             
         }
