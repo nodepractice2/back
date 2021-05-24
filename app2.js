@@ -16,16 +16,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(__dirname + '/views'));
 
-function alertMessage(messageObject) {
-    alert(messageObject);
-    return true;
-    }
-    app.get('/', function (req, res) {
+
+app.get('/', function (req, res) {
         res.render('main.ejs');
     });
-    app.get('/test', function (req, res) {
+
+app.get('/test', function (req, res) {
         res.render('test.ejs');
     });
+    
 app.get('/login', function (req, res) {
     res.render('login.ejs');
 });
@@ -85,22 +84,6 @@ app.post('/writeAf', function (req, res) {
     
 });
 
-// app.post('/join', function (req, res) {
-//     var body = req.body;
-//     console.log(body);
-//     console.log(params);
-//     if(body.password != body.apassword){
-//         res.send("incorrect");
-//     }
-
-//     var sql = 'INSERT INTO user VALUES(?, ?, ?)';
-//     var params = [body.username, body.password, body.email];
-//     console.log(sql);
-//     conn.query(sql, params, function(err) {
-//         if(err) console.log('query is not excuted. insert fail...\n' + err);
-//         else res.redirect('/login');
-//     });
-// });
 
 app.post('/join', function(req,res){
     var id = req.body.id;
@@ -135,21 +118,6 @@ app.post('/join', function(req,res){
     });
 });
 
-// app.post('/wndqhr',function(req,res){
-//     var id = req.body.id;
-//     var password = req.body.password;
-//     var email = req.body.email;
-//     var sql = 'insert into user (id,password,email) values(?,?,?)';
-//     var params = [id,password,email];
-//     conn.query(sql,params,function(err,rows,fields){
-//         var user = rows[0];
-//         if(user.email === email )
-//         msg.info('사용불가능');
-//         else{
-//             msg.info('사용가능');
-//         }
-//     });
-// });
 app.post('/login', function(req,res){
     var email = req.body.email;
     var password = req.body.password;
