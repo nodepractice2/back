@@ -6,11 +6,45 @@
     <title>MainPage</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"><!-- 폰트 링크-->
     <link rel="stylesheet" href="./main.css"> 
+    
+    
+
+
+
+
 </head>
 
 
 
 <body>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+     $(document).ready( function() {
+
+    $("#page").load("/video.ejs");  
+
+    });
+    
+    function team1() {
+        $("#page").load("/Teammates.ejs");
+    }
+    function wd() {
+        $("#page").load("/login.ejs");
+    }
+    function qna() {
+        $("#page").load("/Introduction.html");
+    }
+    //$("#teaminfo").click( function() {
+    //    choose = "/Teammates.ejs";
+    //    console.log(choose);
+    //})
+
+    
+
+
+
+
+    </script>
     <!--전체를 감싸는 태그-->
     <div  id="page-wrapper">
 
@@ -39,13 +73,13 @@
             <div class="pull-left"> 
                 <ul class="outer-menu">
                     <li class="outer-menu-item">
-                        <span class="menu-title"><a href="">조원소개</a></span>
+                        <div class="menu-title" id ="teaminfo" ><a onclick = "team1()">조원소개</a></div>
                     </li>
                     <li class="outer-menu-item">
-                         <span class="menu-title"><a href="">전공소개</a></span>
+                         <span class="menu-title"><a  onclick = "wd()">전공소개</a></span>
                     </li>
                     <li class="outer-menu-item">
-                      <span class="menu-title"><a href="">QnA</a></span>
+                      <span class="menu-title"><a onclick = "qna()">QnA</a></span>
                     </li>
                 </ul>
             </div>
@@ -58,12 +92,10 @@
          <!-- index -->
          <section id="main-section">
             <article>
-                <div class="article-header">
+                <div class="article-header" id ="page" name="page">
                     
                     <!-- 비디오 음소거 자동재생 무한반복-->
-                  <video id="video" muted autoplay loop>
-                      <source src="HelloWorld.mp4"type="video/mp4">
-                  </video>
+
         
                 </div>
             </article>
